@@ -1,3 +1,9 @@
+/* 
+  To do: show original picture below the generative code
+         change the strokes - more random
+         add specific colors randomly (I want some bright red - maybe 2%)
+*/
+         
 import processing.pdf.*;
 import java.util.Calendar;
 
@@ -16,17 +22,25 @@ void setup() {
   //size(640,480);
   img = loadImage("image.jpg");
   size(img.width, img.height);
-  background(255);
   x = width/2;
   y = height/2;
-
+  
+  // Flip the image and put on an alpha
+  // Right now the code going through flips the image when it draws - so to stay
+  // consistant, I'm flipping it too
+  // Just temporary
+  pushMatrix();
+  scale(-1.0, 1.0);
+  tint(255,125);
+  image(img,-img.width,0);
+  popMatrix();
+ 
 }
 
 void draw() {
   colorMode(HSB, 360,100,100);    
   smooth();
   noFill();
-    
   
   int pixelIndex = ((img.width-1-x) + y*img.width);
   color c = img.pixels[pixelIndex];
