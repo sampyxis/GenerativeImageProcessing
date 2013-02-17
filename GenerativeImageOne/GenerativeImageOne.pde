@@ -15,10 +15,15 @@ int x,y;
 int curvePointX = 0;
 int curvePointY = 0;
 int pointCount = 1;
+int loopNum = 0;
+int numOpp = 100;
+boolean lineLoop = false;
+float lineWeight = 0;
 float diffusion = 50;
 
 void setup() {
   
+  textSize(32);
   //size(640,480);
   img = loadImage("image.jpg");
   size(img.width, img.height);
@@ -31,7 +36,7 @@ void setup() {
   // Just temporary
   pushMatrix();
   scale(-1.0, 1.0);
-  tint(255,125);
+  tint(255,200);
   image(img,-img.width,0);
   popMatrix();
  
@@ -46,24 +51,58 @@ void draw() {
   color c = img.pixels[pixelIndex];
   color(c,random(1,255));
   
-  strokeWeight(hue(c)/(int)random(30,50));
-  stroke(c);
+  // The last random function adds more thickness to the line
+  lineWeight = hue(c)/(int)random(30,50) * random(1,5);  
+  strokeWeight(lineWeight);
   
-  beginShape();
-  curveVertex(x,y);
-  curveVertex(x,y);
-  for( int i = 0; i<pointCount; i++) {
-    curvePointX = (int)constrain(x+random(-50, 50), 0, width-1);
-    curvePointY = (int)constrain(y+random(-50,50),0, height-1);
+  printText("Color: " + str(c), 10, 20);
+  printText("Hue: " + str(hue(c)), 10, 20);
+  printText("Weight: " + str(lineWeight), 10, 40);
+  
+  // Every 100 times - get the opposite color
+  if( loopNum == numOpp) {
+    loopNum = 0;
+    lineLoop = true;
+    float R = red(c);
+    float G = green(c);
+    float B = blue(c);
+    float minRGB = min(R,min(G,B));
+    float maxRGB = max(R,max(G,B));
+    float minPlusMax = minRGB + maxRGB;
+    color complement = color(minPlusMax-R, minPlusMax-G, minPlusMax-B);
+    stroke(complement);
+  } else {
+    stroke(c);
+    loopNum ++;
+  }
+  
+  // every numOpp times - do a stright line
+  if( lineLoop == true) {
+    line( x, y, x + random(-width,width)/2, y + random(-height,height)/2);
+    lineLoop = false;
+  } else {
+    beginShape();
+    curveVertex(x,y);
+    curveVertex(x,y);
+    for( int i = 0; i<pointCount; i++) {
+      curvePointX = (int)constrain(x+random(-50, 50), 0, width-1);
+      curvePointY = (int)constrain(y+random(-50,50),0, height-1);
+      curveVertex(curvePointX, curvePointY);
+    }   
     curveVertex(curvePointX, curvePointY);
-  }   
-  curveVertex(curvePointX, curvePointY);
-  endShape();
-  x = curvePointX;
-  y = curvePointY;
+    endShape();
+    x = curvePointX;
+    y = curvePointY;
+  }
   
   // change the size
   pointCount = (int)random(1,5);
+}
+
+void printText(String text, int locationX, int locationY) {
+  //text(text, locationX, locationY);
+  
+  println(text);
 }
 
 void keyReleased(){
