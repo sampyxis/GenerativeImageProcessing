@@ -1,1 +1,4 @@
-*.png, *.jpg, *.ds
+*.png
+*.jpg
+*.ds
+.DS_Store
