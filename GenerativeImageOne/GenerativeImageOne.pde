@@ -17,7 +17,8 @@ int curvePointY = 0;
 int pointCount = 1;
 int loopNum = 0;
 int numOpp = 100;
-boolean lineLoop = false;
+int loopNumLine = 0;
+int numOppLine = 100;
 float lineWeight = 0;
 float diffusion = 50;
 
@@ -62,7 +63,6 @@ void draw() {
   // Every 100 times - get the opposite color
   if( loopNum == numOpp) {
     loopNum = 0;
-    lineLoop = true;
     float R = red(c);
     float G = green(c);
     float B = blue(c);
@@ -77,9 +77,10 @@ void draw() {
   }
   
   // every numOpp times - do a stright line
-  if( lineLoop == true) {
+  if( loopNumLine >= numOppLine ) {
     line( x, y, x + random(-width,width)/2, y + random(-height,height)/2);
-    lineLoop = false;
+    loopNumLine = 0;
+    printText("Line!!!!!!!!!!!!!!!!!!!!!",10,20);
   } else {
     beginShape();
     curveVertex(x,y);
@@ -93,6 +94,7 @@ void draw() {
     endShape();
     x = curvePointX;
     y = curvePointY;
+    loopNumLine = loopNumLine + (int)random(-1,5);
   }
   
   // change the size
