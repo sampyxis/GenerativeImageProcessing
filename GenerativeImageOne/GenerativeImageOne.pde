@@ -2,6 +2,8 @@
   To do: show original picture below the generative code
          change the strokes - more random
          add specific colors randomly (I want some bright red - maybe 2%)
+         - do not flip the image when I load the pixles - I want
+         it the same as the original image
 */
          
 import processing.pdf.*;
@@ -37,7 +39,7 @@ void setup() {
   // Just temporary
   pushMatrix();
   scale(-1.0, 1.0);
-  tint(255,200);
+  tint(255,255);
   image(img,-img.width,0);
   popMatrix();
  
