@@ -4,6 +4,10 @@
          add specific colors randomly (I want some bright red - maybe 2%)
          - do not flip the image when I load the pixles - I want
          it the same as the original image
+         
+         Also - I want to scan the image - find the bright spots and
+         accentue them- and then do the same for the very dark spots
+         and leave the rest the same
 */
          
 import processing.pdf.*;
@@ -56,7 +60,7 @@ void draw() {
   
   // The last random function adds more thickness to the line
   lineWeight = hue(c)/(int)random(30,50) * random(1,5);  
-  strokeWeight(lineWeight);
+  strokeWeight(lineWeight/2);
   
   printText("Color: " + str(c), 10, 20);
   printText("Hue: " + str(hue(c)), 10, 20);
@@ -78,6 +82,7 @@ void draw() {
     loopNum ++;
   }
   
+  /* Change it from curves to lines
   // every numOpp times - do a stright line
   if( loopNumLine >= numOppLine ) {
     line( x, y, x + random(-width,width)/2, y + random(-height,height)/2);
@@ -97,6 +102,16 @@ void draw() {
     x = curvePointX;
     y = curvePointY;
     loopNumLine = loopNumLine + (int)random(-1,5);
+  }
+  */
+  if (loopNumLine >= numOppLine) {
+    line(x,y, x+ random(-width, width)/2, y + random(-height, height)/2);
+    loopNumLine = 0;
+  } else {
+    line(x, y, x+ random(1,10), y+ random(1,10));
+    loopNumLine = loopNumLine + (int)random(-1,5);
+    x = (int)random(0, width);
+    y  = (int)random(0, height);
   }
   
   // change the size
