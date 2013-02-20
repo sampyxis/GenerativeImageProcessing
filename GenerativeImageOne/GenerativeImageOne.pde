@@ -82,8 +82,30 @@ void draw() {
     loopNum ++;
   }
   
-  /* Change it from curves to lines
-  // every numOpp times - do a stright line
+  // how to draw
+//  drawLines();
+  drawSmallLines();
+  //drawCurves();
+  
+  // change the size
+  pointCount = (int)random(1,5);
+}
+
+void drawSmallLines(){
+  strokeWeight(random(.1,3));
+  if (loopNumLine >= numOppLine) {
+    line(x,y, x+ random(-width, width)/2, y + random(-height, height)/2);
+    loopNumLine = 0;
+  } else {
+    line(x, y, x+ random(3,30), y+ random(3,30));
+    loopNumLine = loopNumLine + (int)random(-1,5);
+    x = (int)random(0, width);
+    y  = (int)random(0, height);
+  }
+}
+
+void drawCurves() {
+    // every numOpp times - do a stright line
   if( loopNumLine >= numOppLine ) {
     line( x, y, x + random(-width,width)/2, y + random(-height,height)/2);
     loopNumLine = 0;
@@ -103,7 +125,9 @@ void draw() {
     y = curvePointY;
     loopNumLine = loopNumLine + (int)random(-1,5);
   }
-  */
+}
+
+void drawLines() {
   if (loopNumLine >= numOppLine) {
     line(x,y, x+ random(-width, width)/2, y + random(-height, height)/2);
     loopNumLine = 0;
@@ -114,8 +138,6 @@ void draw() {
     y  = (int)random(0, height);
   }
   
-  // change the size
-  pointCount = (int)random(1,5);
 }
 
 void printText(String text, int locationX, int locationY) {
