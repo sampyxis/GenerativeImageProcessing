@@ -9,7 +9,18 @@
          accentue them- and then do the same for the very dark spots
          and leave the rest the same
 */
-         
+/* Those were old notes - revisiting now (Setp 15, 2013)
+
+  Still valid notes - would also like to blend out the original picture a bit 
+  
+  I want to put some more randomness in with the different types of lines, as well as the opposite color - I like that.
+  
+  I'd also like to add a side window for some control to change some things around.  May need to refactor this for that.
+  
+  Also, I HATE that the image is flipped - need to fix that.
+  */
+  /* Sept 16 2013 - adding GUI */
+  
 import processing.pdf.*;
 import java.util.Calendar;
 
@@ -32,7 +43,8 @@ void setup() {
   
   textSize(32);
   //size(640,480);
-  img = loadImage("image.jpg");
+  //img = loadImage("image.jpg");
+  img = loadImage("ZurichAlteredsm.jpg");
   size(img.width, img.height);
   x = width/2;
   y = height/2;
@@ -83,9 +95,9 @@ void draw() {
   }
   
   // how to draw
-//  drawLines();
+  drawLines();
   drawSmallLines();
-  //drawCurves();
+  drawCurves();
   
   // change the size
   pointCount = (int)random(1,5);
