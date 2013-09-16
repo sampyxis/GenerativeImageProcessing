@@ -24,6 +24,20 @@
 import processing.pdf.*;
 import java.util.Calendar;
 
+// GUI
+import java.awt.Frame;
+import java.awt.BorderLayout;
+import controlP5.*;
+
+private ControlP5 cp5;
+
+CheckBox lineBox;
+CheckBox smLineBox;
+CheckBox curveBox;
+
+ControlFrame cf;
+
+
 boolean savePDF = false;
 
 PImage img;
@@ -38,6 +52,12 @@ int loopNumLine = 0;
 int numOppLine = 100;
 float lineWeight = 0;
 float diffusion = 50;
+
+boolean save = false;
+boolean pause = false;
+boolean drawLines = false;
+boolean drawSmLines = false;
+boolean drawCurves = false;
 
 void setup() {
   
@@ -59,6 +79,12 @@ void setup() {
   image(img,-img.width,0);
   popMatrix();
  
+ // Control frame
+ cp5 = new ControlP5(this);
+ cf = addControlFrame("extra", 250,250);
+ 
+ save = false;
+ pause = false;
 }
 
 void draw() {
@@ -74,9 +100,9 @@ void draw() {
   lineWeight = hue(c)/(int)random(30,50) * random(1,5);  
   strokeWeight(lineWeight/2);
   
-  printText("Color: " + str(c), 10, 20);
-  printText("Hue: " + str(hue(c)), 10, 20);
-  printText("Weight: " + str(lineWeight), 10, 40);
+  //printText("Color: " + str(c), 10, 20);
+  //printText("Hue: " + str(hue(c)), 10, 20);
+  //printText("Weight: " + str(lineWeight), 10, 40);
   
   // Every 100 times - get the opposite color
   if( loopNum == numOpp) {
@@ -95,9 +121,21 @@ void draw() {
   }
   
   // how to draw
-  drawLines();
-  drawSmallLines();
-  drawCurves();
+  // Default all to true to start
+//  drawLines = true;
+//  drawSmLines = true;
+//  drawCurves = true;
+  if(!pause) {
+    if( drawLines ) {
+      drawLines();
+    }
+    if(drawSmLines) {
+      drawSmallLines();
+    }
+    if(drawCurves) {
+      drawCurves();
+    }
+  }
   
   // change the size
   pointCount = (int)random(1,5);
@@ -182,4 +220,5 @@ String timestamp() {
   Calendar now = Calendar.getInstance();
   return String.format("%1$ty%1$tm%1$td_%1$tH%1$tM%1$tS", now);
 }
+
 
