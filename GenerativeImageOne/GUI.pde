@@ -44,6 +44,25 @@ public class ControlFrame extends PApplet {
       .setSize(200,10)
       ;
       
+    cp5.addButton("Clear")
+      .setValue(0)
+      .setPosition(10,250)
+      .setSize(200,10)
+      ;      
+
+    cp5.addButton("Exit")
+      .setValue(0)
+      .setPosition(10,270)
+      .setSize(200,10)
+      ;   
+      
+    cp5.addButton("ClearBackground")
+      .setValue(0)
+      .setPosition(10,290)
+      .setSize(200,10)
+      ;   
+      
+      
     lineBox = cp5.addCheckBox("useLine")
       .setPosition(10, 50)
       .setColorForeground(color(120))
@@ -71,6 +90,23 @@ public class ControlFrame extends PApplet {
       .addItem("Draw Curves", 0)
       ;      
       
+    smallCurveBox = cp5.addCheckBox("smallCurves")
+      .setPosition(10, 170)
+      .setColorForeground(color(120))
+      .setColorActive(color(255))
+      .setColorLabel(color(255))
+      .setSize(30,30)
+      .addItem("Small Curves", 0)
+      ;     
+       
+    smallLineBox = cp5.addCheckBox("smallLines")
+      .setPosition(10, 210)
+      .setColorForeground(color(120))
+      .setColorActive(color(255))
+      .setColorLabel(color(255))
+      .setSize(30,30)
+      .addItem("Small Lines", 0)
+      ;     
     //cp5.addSlider("abc").setRange(0,255).setPosition(10,10);
     //cp5.addSlider("def").plugTo(parent, "def").setRange(0,255).setPosition(10,30);
   }
@@ -86,15 +122,37 @@ public class ControlFrame extends PApplet {
     if(theEvent.isFrom(curveBox)) {
       drawCurves = curveBox.getState(0);
     }
+    
+    if(theEvent.isFrom(smallCurveBox)) {
+      smCurves = smallCurveBox.getState(0);
+    }
+    if(theEvent.isFrom(smallLineBox)) {
+      smLines = smallLineBox.getState(0);
+    }    
   }
   
   
   public void Save(){
-    println("Saved!");
+    saveFrame(timestamp()+"_##.png");
   }
   
   public void Pause(){
     pause = !pause;
+  }
+  
+  public void Clear() {
+    pause = true;
+    setUpImage();
+  }
+  
+  public void Exit() {
+   // exit();
+  }
+  
+  public void ClearBackground() {
+    // Need to create bool and move this function to the main section to check as we're drawing
+    println("Clear!");
+    background(360);
   }
   
   public void draw(){

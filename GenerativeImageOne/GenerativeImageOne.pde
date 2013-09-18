@@ -34,6 +34,8 @@ private ControlP5 cp5;
 CheckBox lineBox;
 CheckBox smLineBox;
 CheckBox curveBox;
+CheckBox smallCurveBox;
+CheckBox smallLineBox;
 
 ControlFrame cf;
 
@@ -59,12 +61,19 @@ boolean drawLines = false;
 boolean drawSmLines = false;
 boolean drawCurves = false;
 
+boolean smCurves = false;
+boolean smLines = false;
+
 void setup() {
   
   textSize(32);
   //size(640,480);
   //img = loadImage("image.jpg");
-  img = loadImage("ZurichAlteredsm.jpg");
+  //img = loadImage("KatheSnowAccrossLake.jpg");
+  //img = loadImage("Family.jpg");
+  //img = loadImage("Luzern Bridge 2013.jpg");
+  //img = loadImage("Grueyre.jpg");
+  img = loadImage("Beach.jpg");
   size(img.width, img.height);
   x = width/2;
   y = height/2;
@@ -73,15 +82,11 @@ void setup() {
   // Right now the code going through flips the image when it draws - so to stay
   // consistant, I'm flipping it too
   // Just temporary
-  pushMatrix();
-  scale(-1.0, 1.0);
-  tint(255,255);
-  image(img,-img.width,0);
-  popMatrix();
+  setUpImage();
  
  // Control frame
  cp5 = new ControlP5(this);
- cf = addControlFrame("extra", 250,250);
+ cf = addControlFrame("Tools", 250,350);
  
  save = false;
  pause = false;
@@ -122,7 +127,7 @@ void draw() {
   
   // how to draw
   // Default all to true to start
-//  drawLines = true;
+ //  drawLines = true;
 //  drawSmLines = true;
 //  drawCurves = true;
   if(!pause) {
@@ -144,7 +149,11 @@ void draw() {
 void drawSmallLines(){
   strokeWeight(random(.1,3));
   if (loopNumLine >= numOppLine) {
-    line(x,y, x+ random(-width, width)/2, y + random(-height, height)/2);
+    if(smLines){
+      line(x,y, x+ random(-width, width)/8, y + random(-height, height)/8);
+    } else {
+      line(x,y, x+ random(-width, width)/2, y + random(-height, height)/2);
+    }
     loopNumLine = 0;
   } else {
     line(x, y, x+ random(3,30), y+ random(3,30));
@@ -157,7 +166,11 @@ void drawSmallLines(){
 void drawCurves() {
     // every numOpp times - do a stright line
   if( loopNumLine >= numOppLine ) {
-    line( x, y, x + random(-width,width)/2, y + random(-height,height)/2);
+    if(smLines){
+      line(x,y, x+ random(-width, width)/8, y + random(-height, height)/8);
+    } else {
+      line( x, y, x + random(-width,width)/2, y + random(-height,height)/2);
+    }
     loopNumLine = 0;
     printText("Line!!!!!!!!!!!!!!!!!!!!!",10,20);
   } else {
@@ -165,8 +178,13 @@ void drawCurves() {
     curveVertex(x,y);
     curveVertex(x,y);
     for( int i = 0; i<pointCount; i++) {
-      curvePointX = (int)constrain(x+random(-50, 50), 0, width-1);
-      curvePointY = (int)constrain(y+random(-50,50),0, height-1);
+      if(smCurves) {
+        curvePointX = (int)constrain(x+random(-10, 10), 0, width-1);
+        curvePointY = (int)constrain(y+random(-10,10),0, height-1);        
+      } else {
+        curvePointX = (int)constrain(x+random(-50, 50), 0, width-1);
+        curvePointY = (int)constrain(y+random(-50,50),0, height-1);
+      }
       curveVertex(curvePointX, curvePointY);
     }   
     curveVertex(curvePointX, curvePointY);
@@ -179,7 +197,11 @@ void drawCurves() {
 
 void drawLines() {
   if (loopNumLine >= numOppLine) {
-    line(x,y, x+ random(-width, width)/2, y + random(-height, height)/2);
+    if(smLines){
+      line(x,y, x+ random(-width, width)/8, y + random(-height, height)/8);
+    } else {
+      line(x,y, x+ random(-width, width)/2, y + random(-height, height)/2);
+    }
     loopNumLine = 0;
   } else {
     line(x, y, x+ random(1,10), y+ random(1,10));
@@ -221,4 +243,10 @@ String timestamp() {
   return String.format("%1$ty%1$tm%1$td_%1$tH%1$tM%1$tS", now);
 }
 
-
+void setUpImage(){
+    pushMatrix();
+  scale(-1.0, 1.0);
+  tint(255,255);
+  image(img,-img.width,0);
+  popMatrix();
+}
