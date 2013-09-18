@@ -20,6 +20,8 @@
   Also, I HATE that the image is flipped - need to fix that.
   */
   /* Sept 16 2013 - adding GUI */
+  /* to do 
+    opening the original picture in a new window*/
   
 import processing.pdf.*;
 import java.util.Calendar;
@@ -38,6 +40,7 @@ CheckBox smallCurveBox;
 CheckBox smallLineBox;
 
 ControlFrame cf;
+ImageFrame imageFrame;
 
 
 boolean savePDF = false;
@@ -64,6 +67,8 @@ boolean drawCurves = false;
 boolean smCurves = false;
 boolean smLines = false;
 
+boolean showTint = false;
+
 void setup() {
   
   textSize(32);
@@ -73,7 +78,11 @@ void setup() {
   //img = loadImage("Family.jpg");
   //img = loadImage("Luzern Bridge 2013.jpg");
   //img = loadImage("Grueyre.jpg");
-  img = loadImage("Beach.jpg");
+  //img = loadImage("Beach.jpg");
+  //img = loadImage("Large_Cow.jpg");
+  //img = loadImage("ourHouse.jpg");
+  img = loadImage("BrentAboveLake.jpg");
+  //img = loadImage("train_texture.jpg");
   size(img.width, img.height);
   x = width/2;
   y = height/2;
@@ -88,6 +97,9 @@ void setup() {
  cp5 = new ControlP5(this);
  cf = addControlFrame("Tools", 250,350);
  
+ // Image Frame
+ imageFrame = addImageFrame("Original", img.width, img.height);
+ 
  save = false;
  pause = false;
 }
@@ -97,7 +109,12 @@ void draw() {
   smooth();
   noFill();
   
-  int pixelIndex = ((img.width-1-x) + y*img.width);
+  // Draw the original window
+  imageFrame.draw();
+  
+//  int pixelIndex = ((img.width-1-x) + y*img.width);
+// The code below doesn't reverse the image - yay!
+  int pixelIndex = ( x+ (y*img.width ));
   color c = img.pixels[pixelIndex];
   color(c,random(1,255));
   
@@ -214,7 +231,6 @@ void drawLines() {
 
 void printText(String text, int locationX, int locationY) {
   //text(text, locationX, locationY);
-  
   println(text);
 }
 
@@ -244,9 +260,14 @@ String timestamp() {
 }
 
 void setUpImage(){
-    pushMatrix();
-  scale(-1.0, 1.0);
-  tint(255,255);
-  image(img,-img.width,0);
-  popMatrix();
+  //pushMatrix();
+  //scale(-1.0, 1.0);
+  //if(showTint){
+  //  tint(255,255);
+ // }
+//  image(img,-img.width,0);
+  image(img,0,0);
+  //popMatrix();
 }
+
+

@@ -106,7 +106,13 @@ public class ControlFrame extends PApplet {
       .setColorLabel(color(255))
       .setSize(30,30)
       .addItem("Small Lines", 0)
-      ;     
+      ;
+ 
+     cp5.addButton("Tint")
+      .setValue(0)
+      .setPosition(10,310)
+      .setSize(200,10)
+      ;        
     //cp5.addSlider("abc").setRange(0,255).setPosition(10,10);
     //cp5.addSlider("def").plugTo(parent, "def").setRange(0,255).setPosition(10,30);
   }
@@ -149,6 +155,12 @@ public class ControlFrame extends PApplet {
    // exit();
   }
   
+  public void Tint(){
+    showTint = !showTint;
+    background(360);
+    setUpImage();
+  }
+  
   public void ClearBackground() {
     // Need to create bool and move this function to the main section to check as we're drawing
     println("Clear!");
@@ -174,4 +186,47 @@ public class ControlFrame extends PApplet {
   
   ControlP5 cp5;
   Object parent;
+}
+
+/* Add a pop up window showing the original image */
+ImageFrame addImageFrame(String theName, int theWidth, int theHeight ){
+  Frame f = new Frame(theName);
+  ImageFrame p = new ImageFrame(this, theWidth, theHeight);
+  f.add(p);
+  p.init();
+  f.setTitle(theName);
+  f.setSize(p.w, p.h);
+  f.setLocation(100,100);
+  f.setResizable(true);
+  f.setVisible(true);
+  return p;
+}
+
+// This is the original image window
+public class ImageFrame extends PApplet {
+  int w,h;
+  Object parent;  
+  
+    public void setup() {
+    size(w,h);
+    frameRate(25);
+    image(img, 0,0);
+    }
+  //pushMatrix();
+  //scale(-1.0, 1.0);
+  //tint(255,255);  
+  //popMatrix();
+
+ public void draw(){
+    image(img, 0, 0);
+  }
+  
+  private ImageFrame(){
+  }
+  
+  public ImageFrame(Object theParent, int theWidth, int theHeight) {
+    parent = theParent;
+    w = theWidth;
+    h = theHeight;
+  }
 }
