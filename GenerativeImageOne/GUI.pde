@@ -113,12 +113,17 @@ public class ControlFrame extends PApplet {
       .setPosition(10,310)
       .setSize(200,10)
       ;        
-    //cp5.addSlider("abc").setRange(0,255).setPosition(10,10);
+    numOppSlider = cp5.addSlider("sliderNumOpp")
+      .setValue(100)
+      .setRange(0,1000)
+      .setPosition(10,330);
+    
     //cp5.addSlider("def").plugTo(parent, "def").setRange(0,255).setPosition(10,30);
   }
   
   public void controlEvent(ControlEvent theEvent){
     //println(theEvent.getController().getName());
+    numOpp = int(numOppSlider.getValue());//sliderNumOpp;
     if(theEvent.isFrom(lineBox)){
       drawLines = lineBox.getState(0);
     }

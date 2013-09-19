@@ -38,6 +38,7 @@ CheckBox smLineBox;
 CheckBox curveBox;
 CheckBox smallCurveBox;
 CheckBox smallLineBox;
+Slider numOppSlider;
 
 ControlFrame cf;
 ImageFrame imageFrame;
@@ -57,6 +58,7 @@ int loopNumLine = 0;
 int numOppLine = 100;
 float lineWeight = 0;
 float diffusion = 50;
+int sliderNumOpp=0;
 
 boolean save = false;
 boolean pause = false;
@@ -81,21 +83,18 @@ void setup() {
   //img = loadImage("Beach.jpg");
   //img = loadImage("Large_Cow.jpg");
   //img = loadImage("ourHouse.jpg");
-  img = loadImage("BrentAboveLake.jpg");
+  //img = loadImage("BrentAboveLake.jpg");
   //img = loadImage("train_texture.jpg");
+  img = loadImage("Cornaux.jpg");
   size(img.width, img.height);
   x = width/2;
   y = height/2;
-  
-  // Flip the image and put on an alpha
-  // Right now the code going through flips the image when it draws - so to stay
-  // consistant, I'm flipping it too
-  // Just temporary
+
   setUpImage();
  
  // Control frame
  cp5 = new ControlP5(this);
- cf = addControlFrame("Tools", 250,350);
+ cf = addControlFrame("Tools", 250,450);
  
  // Image Frame
  imageFrame = addImageFrame("Original", img.width, img.height);
@@ -117,7 +116,7 @@ void draw() {
   int pixelIndex = ( x+ (y*img.width ));
   color c = img.pixels[pixelIndex];
   color(c,random(1,255));
-  
+//  text("word", 10,10);
   // The last random function adds more thickness to the line
   lineWeight = hue(c)/(int)random(30,50) * random(1,5);  
   strokeWeight(lineWeight/2);
@@ -189,7 +188,7 @@ void drawCurves() {
       line( x, y, x + random(-width,width)/2, y + random(-height,height)/2);
     }
     loopNumLine = 0;
-    printText("Line!!!!!!!!!!!!!!!!!!!!!",10,20);
+    //printText("Line!!!!!!!!!!!!!!!!!!!!!",10,20);
   } else {
     beginShape();
     curveVertex(x,y);
@@ -266,7 +265,7 @@ void setUpImage(){
   //  tint(255,255);
  // }
 //  image(img,-img.width,0);
-  image(img,0,0);
+//  image(img,0,0);
   //popMatrix();
 }
 
